@@ -1,73 +1,61 @@
 const fs = require('fs');
-const got = require('got');
-const stream = require('stream');
-const { promisify } = require('util');
 const twit = require('twit');
-
+const myUtil = require('./util');
 const config = require('../config');
 const T = new twit(config.keys);
-const pipeline = promisify(stream.pipeline);
 
-async function downloadImage(uri, fileName) {
-  await pipeline(
-    got.stream(uri),
-    fs.createWriteStream(`images/${fileName}.png`)
-  )
+const postTweet = async (tweet) => T.post('statuses/update', tweet)
+
+async function uploadImage(fileName) {
+  const filePath = myUtil.getFilePath(fileName);
+  const b64 = fs.readFileSync(filePath, { encoding: 'base64' });
+
+  return await T.post('media/upload', { media_data: b64 });
 }
 
-async function tweetImage(fileName, status, callback) {
-  if (typeof status === 'function') {
-    callback = status;
-    status = null;
-  }
-  
-  try {
-    const filePath = `images/${fileName}`;
-    const b64 = fs.readFileSync(filePath, { encoding: 'base64' });
-    const uploaded = await T.post('media/upload', { media_data: b64 });
-
-    const imageId = uploaded.data.media_id_string;
-    const tweet = { media_ids: [imageId] };
-    status ? tweet.status = status : undefined;
-
-    return await T.post('statuses/update', tweet);
-  } catch (error) {
-    throw error;
-  }
-}
-
-async function tweetStatus(status, callback) {
+async function tweetStatus(status) {
   const params = { status }
 
-  return await T.post('statuses/update', params)
+  return await postTweet(params);
 }
 
 function listenQuery(query, callback) {
   const stream = T.stream('statuses/filter', { track: query })
 
-  stream.on('tweet', tweet => {
-    const json = JSON.stringify(tweet, null, 2);
-    fs.writeFile('tweet.json', json);
-  })
-
-  // stream.on('tweet', callback)
+  stream.on('tweet', callback)
 }
 
-function getTweetById(tweetId, callback) {
+async function getTweetById(tweetId) {
   const params = { id: tweetId }
 
-  T.get('statuses/show', params, (err, data, res) => {
-    const json = JSON.stringify(data, null, 2);
-    fs.writeFile('tweetId2.json', json);
-  })
-
-  // return await T.get('statuses/show', params)
+  return await T.get('statuses/show', params)
 }
+
+async function replyTweet(tweetId, { status, fileName }) {
+  const { data } = await getTweetById(tweetId);
+  const screenName = data.user.screen_name;
+  let uploaded;
+  let tweet = {
+    in_reply_to_status_id: data.id_str, 
+    status: `@${screenName}` 
+  };
+
+  if (fileName) {
+    uploaded = await uploadImage(fileName);
+    tweet.media_ids = [uploaded.data.media_id_string];
+  }
+  
+  if (status) {
+    tweet.status += ` ${status}`;
+  }
+
+  return await postTweet(tweet);
+} 
 
 module.exports = {
   tweetStatus,
   listenQuery,
   getTweetById,
-  downloadImage,
-  tweetImage
+  uploadImage,
+  replyTweet
 }
