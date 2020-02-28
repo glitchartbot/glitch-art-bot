@@ -6,8 +6,8 @@ const T = new twit(config.keys);
 
 const postTweet = async (tweet) => T.post('statuses/update', tweet)
 
-async function uploadImage(fileName) {
-  const filePath = myUtil.getFilePath(fileName);
+async function uploadImage(sketch, fileName) {
+  const filePath = myUtil.getFilePath(sketch, fileName);
   const b64 = fs.readFileSync(filePath, { encoding: 'base64' });
 
   return await T.post('media/upload', { media_data: b64 });
@@ -56,6 +56,5 @@ module.exports = {
   tweetStatus,
   listenQuery,
   getTweetById,
-  uploadImage,
   replyTweet
 }
