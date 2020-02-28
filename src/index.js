@@ -13,7 +13,7 @@ async function onMention(tweet) {
     const parentId = myUtil.getParentTweetId(tweet);
     const { data } = await bot.getTweetById(parentId);
 
-    if (myUtil.hasValidImage(data)) {
+    if (myUtil.hasValidImage(data) && tweet.in_reply_to_user_id_str != bot.ID) {
       const imageUrl = myUtil.getImageUrl(data);
       const fileFormat = myUtil.getFileFormat(data);
       const chosenSketch = SketchesEnum.pixelSort;
@@ -29,10 +29,13 @@ async function onMention(tweet) {
         sketch: chosenSketch, 
         fileName: `${tweetId}_1${fileFormat}`
       }
-      const reply = await bot.replyTweet(tweetId, replyTweet)
+      const reply = await bot.replyTweet(tweetId, replyTweet);
+
+      console.log('Sucesso!\n' + myUtil.getTweetUrl(reply));
+      myUtil.log({status: 'success', tweet, parent: data});
     } else {
-      console.log('Não tem imagem');
-      myUtil.log({tweet, parent: data});
+      console.log('Imagem inválida');
+      myUtil.log({status: 'error', tweet, parent: data});
     }
   } catch (error) {
     throw error;

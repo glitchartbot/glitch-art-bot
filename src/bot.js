@@ -3,6 +3,7 @@ const twit = require('twit');
 const myUtil = require('./util');
 const config = require('../config');
 const T = new twit(config.keys);
+const ID = '1232403291151196160';
 
 const postTweet = async (tweet) => T.post('statuses/update', tweet)
 
@@ -64,5 +65,6 @@ module.exports = {
   tweetStatus,
   listenQuery,
   getTweetById,
-  replyTweet
+  replyTweet,
+  ID
 }

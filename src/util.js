@@ -19,6 +19,8 @@ const getImageUrl = (tweet, withSize) =>
 
 const getFileFormat = tweet => getImageUrl(tweet, false).match(/\.[0-9a-z]+$/i)[0];
 
+const getTweetUrl = tweet => `https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`
+
 async function downloadImage(uri, sketch, { fileName, fileFormat = '.png'}) {
   await pipeline(
     got.stream(uri),
@@ -44,5 +46,6 @@ module.exports = {
   getFilePath,
   getFileFormat,
   saveInfo,
-  log
+  log,
+  getTweetUrl
 }
