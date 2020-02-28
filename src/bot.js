@@ -6,6 +6,12 @@ const T = new twit(config.keys);
 
 const postTweet = async (tweet) => T.post('statuses/update', tweet)
 
+async function getTweetById(tweetId) {
+  const params = { id: tweetId }
+
+  return await T.get('statuses/show', params)
+}
+
 async function uploadImage(sketch, fileName) {
   const filePath = myUtil.getFilePath(sketch, fileName);
   const b64 = fs.readFileSync(filePath, { encoding: 'base64' });
@@ -14,9 +20,13 @@ async function uploadImage(sketch, fileName) {
 }
 
 async function tweetStatus(status) {
-  const params = { status }
-
-  return await postTweet(params);
+  try {
+    const tweet = { status }
+  
+    return await postTweet(tweet);
+  } catch (error) {
+    
+  }
 }
 
 function listenQuery(query, callback) {
@@ -25,31 +35,29 @@ function listenQuery(query, callback) {
   stream.on('tweet', callback)
 }
 
-async function getTweetById(tweetId) {
-  const params = { id: tweetId }
-
-  return await T.get('statuses/show', params)
-}
-
-async function replyTweet(tweetId, { status, fileName }) {
-  const { data } = await getTweetById(tweetId);
-  const screenName = data.user.screen_name;
-  let uploaded;
-  let tweet = {
-    in_reply_to_status_id: data.id_str, 
-    status: `@${screenName}` 
-  };
-
-  if (fileName) {
-    uploaded = await uploadImage(fileName);
-    tweet.media_ids = [uploaded.data.media_id_string];
-  }
+async function replyTweet(tweetId, { status, sketch, fileName }) {
+  try {
+    const { data } = await getTweetById(tweetId);
+    const screenName = data.user.screen_name;
+    let uploaded;
+    let tweet = {
+      in_reply_to_status_id: data.id_str, 
+      status: `@${screenName}` 
+    };
   
-  if (status) {
-    tweet.status += ` ${status}`;
+    if (fileName) {
+      uploaded = await uploadImage(sketch, fileName);
+      tweet.media_ids = [uploaded.data.media_id_string];
+    }
+    
+    if (status) {
+      tweet.status += ` ${status}`;
+    }
+  
+    return await postTweet(tweet);
+  } catch (error) {
+    
   }
-
-  return await postTweet(tweet);
 } 
 
 module.exports = {

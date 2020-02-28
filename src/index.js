@@ -15,18 +15,24 @@ async function onMention(tweet) {
 
     if (myUtil.hasValidImage(data)) {
       const imageUrl = myUtil.getImageUrl(data);
-      const fileName = tweetId;
+      const fileFormat = myUtil.getFileFormat(data);
       const chosenSketch = SketchesEnum.pixelSort;
+      await myUtil.downloadImage(imageUrl, chosenSketch, { fileName: tweetId, fileFormat });
 
-      await myUtil.downloadImage(imageUrl, chosenSketch, fileName);
-
-      myUtil.saveInfo(processing.getSetupFilePath(chosenSketch));
+      const sketchSetupPath = processing.getSetupFilePath(chosenSketch);
+      myUtil.saveInfo(sketchSetupPath, `./assets/${tweetId}`, fileFormat);
+      
       const cmd = processing.getProcessingCmd(chosenSketch);
-      await execAsync(cmd)
-
-      // const reply = await bot.replyTweet(tweetId, {status: 'teste', fileName: `${fileName}.png`})
+      const { stdout, stderr } = await execAsync(cmd);
+      
+      const replyTweet = { 
+        sketch: chosenSketch, 
+        fileName: `${tweetId}_1${fileFormat}`
+      }
+      const reply = await bot.replyTweet(tweetId, replyTweet)
     } else {
       console.log('Não tem imagem');
+      myUtil.log({tweet, parent: data});
     }
   } catch (error) {
     throw error;

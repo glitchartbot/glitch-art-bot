@@ -2,27 +2,37 @@ const fs = require('fs');
 const got = require('got');
 const path = require('path');
 const stream = require('stream');
-const sketches = require('sketches');
+const sketches = require('./sketches');
 const { promisify } = require('util');
 const pipeline = promisify(stream.pipeline);
 
 const getParentTweetId = tweet => tweet.in_reply_to_status_id_str;
 
-const getImageUrl = tweet => tweet.entities.media.find(media => media.type === 'photo').media_url
-
 const hasValidImage = tweet => Boolean(tweet.entities.media && tweet.entities.media.filter(media => media.type === 'photo').length)
 
 const getFilePath = (sketch, fileName) => path.join(sketches.getAssetsPath(sketch), fileName);
 
-async function downloadImage(uri, sketch, { fileName, format = '.png'}) {
+const getImageUrl = (tweet, withSize) => 
+  withSize ? 
+  (tweet.entities.media.find(media => media.type === 'photo').media_url).concat('?name=large') :
+  tweet.entities.media.find(media => media.type === 'photo').media_url
+
+const getFileFormat = tweet => getImageUrl(tweet, false).match(/\.[0-9a-z]+$/i)[0];
+
+async function downloadImage(uri, sketch, { fileName, fileFormat = '.png'}) {
   await pipeline(
     got.stream(uri),
-    fs.createWriteStream(getFilePath(sketch, `${fileName}${format}`))
+    fs.createWriteStream(getFilePath(sketch, `${fileName}${fileFormat}`))
   )
 }
 
-function saveInfo(path, fileName, format) {
-  fs.writeFile(path, `${fileName},${format}`)
+function saveInfo(setupPath, fileName, fileFormat) {
+  fs.writeFileSync(setupPath, `${fileName},${fileFormat}`)
+}
+
+function log(content) {
+  const json = JSON.stringify(content, null, 2);
+  fs.writeFileSync('log.json', json);
 }
 
 
@@ -32,5 +42,7 @@ module.exports = {
   hasValidImage,
   getImageUrl,
   getFilePath,
+  getFileFormat,
   saveInfo,
+  log
 }
