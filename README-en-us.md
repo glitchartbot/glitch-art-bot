@@ -20,6 +20,6 @@ For now the bot only have one available script, so the bot uses it by default. T
 
 ## TODO
 
-- [] Add more scripts
-- [] Add customization to each script, if possible
-- [] Choose what image to edit, if there's more than one in a tweet 
+- [ ] Add more scripts
+- [ ] Add customization to each script, if possible
+- [ ] Choose what image to edit, if there's more than one in a tweet 
