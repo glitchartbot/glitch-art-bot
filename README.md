@@ -22,6 +22,6 @@ Por enquanto o bot só tem um script disponível, então ele o usa por padrão. 
 
 ## TODO
 
-[ ] Adicionar mais scripts
-[ ] Adicionar personalização pra cada script, se possível
-[ ] Poder escolher qual imagem editar, se houver mais de uma num tweet
+- [ ] Adicionar mais scripts
+- [ ] Adicionar personalização pra cada script, se possível
+- [ ] Poder escolher qual imagem editar, se houver mais de uma num tweet
