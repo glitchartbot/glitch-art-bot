@@ -1,4 +1,4 @@
-***To read this documentation in english, [click here](./README-en-us)***
+***To read this documentation in english, [click here](./README-en-us.md)***
 
 # glitch-art-bot
 
