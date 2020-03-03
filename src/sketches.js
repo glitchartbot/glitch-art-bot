@@ -1,26 +1,56 @@
 const path = require('path');
 
-const PROCESSING_PATH = 'C:\\Processing\\processing-3.5.4\\processing-java.exe';
-const PROCESSING_SKETCHES_BASE = 'C:\\Processing\\sketches-p3'; 
+const PROCESSING_PATH = {
+  p2: 'C:\\Processing\\processing-2.2.1\\processing-java.exe',
+  p3: 'C:\\Processing\\processing-3.5.4\\processing-java.exe'
+}
+
+const PROCESSING_SKETCHES_BASE = {
+  p2: 'C:\\Processing\\sketches-p2',
+  p3: 'C:\\Processing\\sketches-p3' 
+}
+
 const PROCESSING_SKETCHES = {
   pixelSort: {
     sketch: 'pixelsort',
+    version: 'p3',
     data: 'pixelsort\\data',
     setup: 'pixelsort\\data\\setup.txt',
     assets: 'pixelsort\\assets',
   }
 }
+
 const SketchesEnum = {
   pixelSort: 'pixelSort'
 }
 
-const getProcessingCmd = sketch => `${PROCESSING_PATH} --sketch=${path.join(PROCESSING_SKETCHES_BASE, PROCESSING_SKETCHES[sketch].sketch)} --run`
+const getVersion = sketch => PROCESSING_SKETCHES[sketch].version;
 
-const getAssetsPath = sketch => path.join(PROCESSING_SKETCHES_BASE, PROCESSING_SKETCHES[sketch].assets)
+const getProcessingCmd = sketch => {
+  const version = getVersion(sketch);
 
-const getDataPath = sketch => path.join(PROCESSING_SKETCHES_BASE, PROCESSING_SKETCHES[sketch].data)
+  return `${PROCESSING_PATH[version]} --sketch=${path.join(PROCESSING_SKETCHES_BASE[version], PROCESSING_SKETCHES[sketch].sketch)} --run`
+}
 
-const getSetupFilePath = sketch => path.join(PROCESSING_SKETCHES_BASE, PROCESSING_SKETCHES[sketch].setup)
+const getAssetsPath = sketch => {
+  const version = getVersion(sketch);
+
+  return path.join(PROCESSING_SKETCHES_BASE[version], PROCESSING_SKETCHES[sketch].assets);
+}
+
+
+const getDataPath = sketch => {  
+  const version = getVersion(sketch);
+
+  return path.join(PROCESSING_SKETCHES_BASE[version], PROCESSING_SKETCHES[sketch].data);
+}
+
+
+const getSetupFilePath = sketch => {
+  const version = getVersion(sketch);
+
+  return path.join(PROCESSING_SKETCHES_BASE[version], PROCESSING_SKETCHES[sketch].setup)
+}
 
 const getSketch = sketch => ({...PROCESSING_SKETCHES[sketch]}) 
 
