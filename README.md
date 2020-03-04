@@ -16,7 +16,7 @@ Por enquanto o bot só tem um script disponível, então ele o usa por padrão. 
 
 ## Scripts disponíveis
 
-**Por mais que a maioria, (senão todos) os scripts não sejam de autoria minha, eles tiveram que ser ajustados pra funcionarem corretamente com o bot. Pra ver os scripts usados pelo bot e como usá-los, [clique aqui]().*
+**Por mais que a maioria, (senão todos) os scripts não sejam de autoria minha, eles tiveram que ser ajustados pra funcionarem corretamente com o bot. Pra ver os scripts usados pelo bot e como usá-los, ~~clique aqui~~ (em breve).*
 
 - Pixel Sort pelo [Kim Asendorf](https://github.com/kimasendorf) ([fonte](https://github.com/kimasendorf/ASDFPixelSort/blob/master/ASDFPixelSort.pde))
 
