@@ -10,7 +10,7 @@ The bot uses its credentials, connects to Twitter's stream and listens to whenev
 
 For now the bot only have one available script, so the bot uses it by default. To use it you only need to mention the bot (@GlitchArtBot) as a reply to any tweet that has an image. I have plans to add more scripts and options to customize the scripts.
 
-*PS.: The user that mentions the bot aswell as the user that posted the tweet with the image can't have its tweets "protected", for the bot won't the able to see the tweets.*
+*PS.: The user that mentions the bot aswell as the user that posted the tweet with the image **CAN'T** have its tweets "protected", for the bot won't the able to see the tweets.*
 
 ## Available scripts
 
