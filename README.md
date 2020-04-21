@@ -1,5 +1,10 @@
 ***To read this documentation in english, [click here](./README-en-us.md)***
 
+<div style="border: solid 2px black; border-radius:4px; padding:10px">
+  <span style="font-size: 2.5em"> :heavy_exclamation_mark: Aviso</span>
+  <p style="font-size: 1.2em">O Glitch Art Bot foi reescrito em TypeScript e este repositório só existe para fins de arquivação. Acesse o repositório atualizado <a href="https://github.com/friaca/glitch-art-bot-ts">clicando aqui</a>.</p>
+</div>
+
 # glitch-art-bot
 
 Bot do Twitter (@GlitchArtBot) que aplica efeitos de glitch art em imagens.
