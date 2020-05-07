@@ -1,5 +1,5 @@
 # :heavy_exclamation_mark: Warning
-## Glitch Art Bot was rewritten in TypeScript and this repository only still exists for archiving purposes. Access the updated repository [clicking here](https://github.com/friaca/glitch-art-bot-ts).
+## Glitch Art Bot was rewritten in TypeScript and this repository only still exists for archiving purposes. Access the updated repository [clicking here](https://github.com/glitchartbot/glitch-art-bot-ts).
 --- 
 
 # glitch-art-bot

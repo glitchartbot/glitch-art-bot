@@ -1,7 +1,7 @@
 ***To read this documentation in english, [click here](./README-en-us.md)***
 
 # :heavy_exclamation_mark: Aviso
-## O Glitch Art Bot foi reescrito em TypeScript e este repositório só existe para fins de arquivação. Acesse o repositório atualizado [clicando aqui](https://github.com/friaca/glitch-art-bot-ts).
+## O Glitch Art Bot foi reescrito em TypeScript e este repositório só existe para fins de arquivação. Acesse o repositório atualizado [clicando aqui](https://github.com/glitchartbot/glitch-art-bot-ts).
 
 # glitch-art-bot
 
