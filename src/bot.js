@@ -5,7 +5,7 @@ const config = require('../config');
 const T = new twit(config.keys);
 const ID = '1232403291151196160';
 
-const postTweet = async (tweet) => T.post('statuses/update', tweet)
+const postTweet = async (tweet) => T.post('statuses/update', tweet);
 
 async function getTweetById(tweetId) {
   const params = { id: tweetId, tweet_mode: 'extended' }
