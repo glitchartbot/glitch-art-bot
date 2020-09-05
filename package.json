@@ -21,6 +21,6 @@
   "dependencies": {
     "got": "^10.6.0",
     "twit": "^2.2.11",
-    "yargs-parser": "^18.0.0"
+    "yargs-parser": "^18.1.2"
   }
 }
